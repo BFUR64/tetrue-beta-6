@@ -65,7 +65,6 @@ public class App {
         this.tg = tg;
 
         tg.putString(0, 0, "Loading...");
-        tg.putString(0, 1, "Testing");
 
         this.config = Config.readConfig();
         Logging.writeLog(LogType.INFO, "Config loaded");
