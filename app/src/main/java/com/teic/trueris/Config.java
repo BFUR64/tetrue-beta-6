@@ -11,7 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 public class Config {
-    private static final String CONFIG_NAME = "config.json";
+    private static final String CONFIG_NAME = 
+        "config.json";
+    
     private static final double DEF_FPS = 60;
     private static final double DEF_GRAVITY = 1.0;
     private static final double DEF_HEIGHT = 20;
@@ -36,24 +38,35 @@ public class Config {
 
     public static Config readConfig() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
+        
         mapper.setVisibility(
-                PropertyAccessor.ALL, Visibility.NONE);
+            PropertyAccessor.ALL, 
+            Visibility.NONE
+        );
+        
         mapper.setVisibility(
-                PropertyAccessor.FIELD, Visibility.ANY
-                );
+            PropertyAccessor.FIELD, 
+            Visibility.ANY
+        );
 
         Config config;
 
         try {
-            Logging.writeLog(LogType.INFO, "Reading config");
-            config = mapper
-                .readValue(
-                        new File(CONFIG_NAME), 
-                        Config.class);
+            Logging.writeLog(
+                LogType.INFO, 
+                "Reading config"
+            );
+            
+            config = mapper.readValue(
+                new File(CONFIG_NAME), 
+                Config.class
+            );
         }
-        catch (FileNotFoundException 
-                | JsonParseException 
-                | MismatchedInputException e) {
+        catch (
+            FileNotFoundException 
+            | JsonParseException 
+            | MismatchedInputException e
+        ) {
             Logging.writeStackTrace(LogType.WARN, e);
             
             config = new Config();
@@ -63,8 +76,9 @@ public class Config {
             return config;
         }
 
-        if (!config.ensureValidSettings())
+        if (!config.ensureValidSettings()) {
             config.writeConfig();
+        }
 
         return config;
     }
@@ -74,11 +88,13 @@ public class Config {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper
-                .writerWithDefaultPrettyPrinter()
+            mapper.writerWithDefaultPrettyPrinter()
                 .writeValue(new File(CONFIG_NAME), this);
             
-            Logging.writeLog(LogType.INFO, "Config written");
+            Logging.writeLog(
+                LogType.INFO, 
+                "Config written"
+            );
         }
         catch (IOException e) {
             Logging.writeStackTrace(LogType.ERROR, e);
@@ -113,7 +129,12 @@ public class Config {
         }
         
         if (fixes > 0) {
-            Logging.writeLog(LogType.INFO, "Settings fixed: " + fixes);
+            Logging.writeLog(
+                LogType.INFO, 
+                "Settings fixed: " 
+                + fixes
+            );
+
             return false;
         }
 
@@ -125,20 +146,33 @@ public class Config {
     }
 
     private boolean isGravityValid(double value) {
-        return isValueValid(value, MIN_GRAVITY, MAX_GRAVITY);
+        return isValueValid(
+            value, 
+            MIN_GRAVITY, 
+            MAX_GRAVITY
+        );
     }
 
     private boolean isHeightValid(double value) {
-        return isValueValid(value, MIN_HEIGHT, MAX_HEIGHT);
+        return isValueValid(
+            value, 
+            MIN_HEIGHT, 
+            MAX_HEIGHT
+        );
     }
 
     private boolean isWidthValid(double value) {
         return isValueValid(value, MIN_WIDTH, MAX_WIDTH);
     }
 
-    private boolean isValueValid(double value, double min, double max) {
-        if (value < min || value > max)
+    private boolean isValueValid(
+        double value, 
+        double min, 
+        double max
+    ) {
+        if (value < min || value > max) {
             return false;
+        }
 
         return true;
     }

@@ -13,7 +13,8 @@ public class ActionItem extends Item {
     }
 
     @Override
-    public boolean onSelect(MenuContext mc) throws IOException {
+    public boolean onSelect(MenuContext menuContext) 
+        throws IOException {
         return action.run();
     }
 }

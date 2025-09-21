@@ -5,22 +5,23 @@ import java.io.IOException;
 import com.teic.trueris.menu.MenuContext;
 
 public abstract class Item {
-    protected final String LABEL;
-    protected final boolean SELECTABLE;
+    protected final String label;
+    protected final boolean selectable;
 
     protected Item(String label, boolean selectable) {
-        this.LABEL = label;
-        this.SELECTABLE = selectable;
+        this.label = label;
+        this.selectable = selectable;
     }
 
-    public String getLabel() { return LABEL; }
-    public boolean selectable() { return SELECTABLE; }
+    public String getLabel() { return label; }
+    public boolean selectable() { return selectable; }
     
-    public String getDisplayName() { return LABEL; }
+    public String getDisplayName() { return label; }
     
-    public boolean onSelect(MenuContext mc) throws IOException {
-        if (!SELECTABLE) {
-            throw new IllegalStateException("Tried to select a non-selectable item: " + LABEL);
+    public boolean onSelect(MenuContext mc) 
+        throws IOException {
+        if (!selectable) {
+            throw new IllegalStateException("Tried to select a non-selectable item: " + label);
         }
 
         // Default that tells the MenuManager to continue the loop 

@@ -17,31 +17,38 @@ public class MenuManager {
     private static final int ITEM_INDENT = 4;
     private static final int CUR_INDENT = 2;
     
-    private final Terminal tm;
-    private final TextGraphics tg;
+    private final Terminal terminal;
+    private final TextGraphics textGraphics;
     private final List<Item> menuList;
     private final String title;
 
-    private final int MIN_MENU_SIZE = 0;
-    private final int MAX_MENU_SIZE;
+    private final int minMenuSize = 0;
+    private final int maxMenuSize;
 
-    public MenuManager(Terminal tm, TextGraphics tg, List<Item> menuList, String title) {
-        this.tm = tm;
-        this.tg = tg;
+    public MenuManager(
+        Terminal terminal, 
+        TextGraphics textGraphics, 
+        List<Item> menuList, 
+        String title
+    ) {
+        this.terminal = terminal;
+        this.textGraphics = textGraphics;
         this.menuList = menuList;
         this.title = title;
 
-        MAX_MENU_SIZE = menuList.size() - 1;
+        maxMenuSize = menuList.size() - 1;
 
-        Logging.writeLog(LogType.INFO, 
-                "Menu started: " + title);
+        Logging.writeLog(
+            LogType.INFO, 
+            "Menu started: " + title
+        );
     }
 
     public void run() throws IOException {
-        tm.resetColorAndSGR();
-        tm.clearScreen();
+        terminal.resetColorAndSGR();
+        terminal.clearScreen();
 
-        int listIndex = MIN_MENU_SIZE;
+        int listIndex = minMenuSize;
         int prevListIndex = listIndex;
 
         drawMenu();
@@ -52,17 +59,27 @@ public class MenuManager {
 
         loop:
         while (true) {
-            tg.putString(CUR_INDENT, prevListIndex + 1, " ");
-            tg.putString(CUR_INDENT, listIndex + 1, ">");
+            textGraphics.putString(
+                CUR_INDENT, 
+                prevListIndex + 1, 
+                " "
+            );
+            textGraphics.putString(
+                CUR_INDENT, 
+                listIndex + 1, 
+                ">"
+            );
 
-            tm.flush();
+            terminal.flush();
 
-            KeyStroke in = tm.readInput();
+            KeyStroke in = terminal.readInput();
 
             switch (in.getKeyType()) {
                 case Escape -> {
-                    Logging.writeLog(LogType.INFO, 
-                            "Menu exit: " + title);
+                    Logging.writeLog(
+                        LogType.INFO, 
+                        "Menu exit: " + title
+                    );
                     SoundManager.playSFX(Sound.MENU_BACK);
                     break loop;
                 }
@@ -72,11 +89,13 @@ public class MenuManager {
                     do {
                         listIndex--;
 
-                        if (listIndex < MIN_MENU_SIZE)
-                            listIndex = MAX_MENU_SIZE;
+                        if (listIndex < minMenuSize) {
+                            listIndex = maxMenuSize;
+                        }
                     }
                     while (!menuList.get(listIndex) 
-                            .selectable());
+                            .selectable()
+                    );
                 }
                 case ArrowDown -> {
                     SoundManager.playSFX(Sound.MENU_MOVE);
@@ -84,29 +103,41 @@ public class MenuManager {
                     do {
                         listIndex++;
 
-                        if (listIndex > MAX_MENU_SIZE)
-                            listIndex = MIN_MENU_SIZE;
+                        if (listIndex > maxMenuSize) {
+                            listIndex = minMenuSize;
+                        }
                     }
                     while (!menuList.get(listIndex)
-                            .selectable());
+                            .selectable()
+                    );
                 }
                 case Enter -> {
                     Logging.writeLog(
-                            LogType.DEBUG, 
-                            "Menu selection: "
-                            + menuList.get(listIndex)
-                            .getLabel());
+                        LogType.DEBUG, 
+                        "Menu selection: "
+                        + menuList.get(listIndex)
+                        .getLabel()
+                    );
 
-                    SoundManager.playSFX(Sound.MENU_SELECT);
-                    MenuContext mc = new MenuContext(
-                            tm, tg, ITEM_INDENT, 
-                            listIndex + 1);
+                    SoundManager.playSFX(
+                        Sound.MENU_SELECT
+                    );
+                    MenuContext menuContext = 
+                        new MenuContext(
+                            terminal, 
+                            textGraphics, 
+                            ITEM_INDENT, 
+                            listIndex + 1
+                        );
                     
-                    if(!menuList.get(listIndex).onSelect(mc))
+                    if(!menuList.get(listIndex)
+                                .onSelect(menuContext)
+                    ) {
                         break loop;
+                    }
 
-                    tm.resetColorAndSGR();
-                    tm.clearScreen();
+                    terminal.resetColorAndSGR();
+                    terminal.clearScreen();
                     
                     drawMenu();
                 }
@@ -118,19 +149,23 @@ public class MenuManager {
     private void drawMenu() throws IOException {
         centerText(0, title);
     
-        for (int i = 0; i <= MAX_MENU_SIZE; i++) {
-            tg.putString(ITEM_INDENT, i + 1, 
-                    menuList.get(i).getDisplayName());
+        for (int i = 0; i <= maxMenuSize; i++) {
+            textGraphics.putString(
+                ITEM_INDENT, 
+                i + 1, 
+                menuList.get(i).getDisplayName()
+            );
         }
     }
 
-    private void centerText(int rowPos, String text) throws IOException {
-        TerminalSize tSize = tm.getTerminalSize();
+    private void centerText(int rowPos, String text) 
+        throws IOException {
+        TerminalSize tSize = terminal.getTerminalSize();
         int tCol = tSize.getColumns();
 
         int colPos = (tCol / 2) - (text.length() / 2);
 
-        tg.putString(colPos, rowPos, text);
+        textGraphics.putString(colPos, rowPos, text);
     }
 }
 

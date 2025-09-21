@@ -20,44 +20,65 @@ import com.teic.trueris.sound.Sound;
 import com.teic.trueris.sound.SoundManager;
 
 public class EditableItem extends Item {
-    private final Supplier<Double> GET;
-    private final Function<Double, Boolean> SET;
-    private final String SEPARATOR = " = ";
+    private final Supplier<Double> get;
+    private final Function<Double, Boolean> set;
+    private final String separator = " = ";
 
-    public EditableItem(String label, Supplier<Double> get, Function<Double, Boolean> set) {
+    public EditableItem(
+        String label, 
+        Supplier<Double> get, 
+        Function<Double, Boolean> set
+    ) {
         super(label, true);
-        this.GET = get;
-        this.SET = set;
+        this.get = get;
+        this.set = set;
     }
 
-    public Double getValue() { return GET.get(); }
-    public boolean setValue(Double value) { return SET.apply(value); }
-    public String getSEPARATOR() { return SEPARATOR; }
+    public Double getValue() { return get.get(); }
+    
+    public boolean setValue(Double value) {
+        return set.apply(value);
+    }
+
+    public String getSeparator() { return separator; }
 
     @Override
     public String getDisplayName() {
-        return LABEL + SEPARATOR + getValue();
+        return label + separator + getValue();
     }
 
     @Override
-    public boolean onSelect(MenuContext mc) throws IOException {
-        Terminal tm = mc.tm();
-        TextGraphics tg = mc.tg();
+    public boolean onSelect(MenuContext mainContext) 
+        throws IOException {
+        Terminal terminal = mainContext.terminal();
+        
+        TextGraphics textGraphics = mainContext
+            .textGraphics();
 
         int valueLength = ("" + getValue()).length();
-        int nameOffset = mc.colPos()
-            + LABEL.length()
-            + SEPARATOR.length();
+        int nameOffset = mainContext
+            .colPos()
+            + label.length()
+            + separator.length();
 
-        tg.setBackgroundColor(ANSI.WHITE);
-        tg.setForegroundColor(ANSI.BLACK);
-        tg.putString(mc.colPos(), mc.rowPos(), LABEL);
-        tg.setBackgroundColor(ANSI.DEFAULT);
-        tg.setForegroundColor(ANSI.DEFAULT);
+        textGraphics.setBackgroundColor(ANSI.WHITE);
+        textGraphics.setForegroundColor(ANSI.BLACK);
+        
+        textGraphics.putString(
+            mainContext.colPos(), 
+            mainContext.rowPos(), 
+            label
+        );
+        
+        textGraphics.setBackgroundColor(ANSI.DEFAULT);
+        textGraphics.setForegroundColor(ANSI.DEFAULT);
 
         for (int i = 0; i < valueLength; i++) {
-            tg.putString(nameOffset + i, 
-                    mc.rowPos(), " ");
+            textGraphics.putString(
+                nameOffset + i, 
+                mainContext.rowPos(), 
+                " "
+            );
         }
         
         int cursorPos = nameOffset;
@@ -67,52 +88,83 @@ public class EditableItem extends Item {
         
         loop:
         while (true) {
-            tm.flush();
+            terminal.flush();
 
-            KeyStroke keyStroke = tm.readInput();
+            KeyStroke keyStroke = terminal.readInput();
             KeyType keyType = keyStroke.getKeyType();
-            Character gCharacter = null;
+            Character character = null;
 
             switch (keyType) {
                 case Escape -> {
-                    Logging.writeLog(LogType.INFO, 
-                            "Item exit: " + LABEL);
+                    Logging.writeLog(
+                        LogType.INFO, 
+                        "Item exit: " + label
+                    );
+
                     SoundManager.playSFX(Sound.MENU_BACK);
                     break loop;
                 }
                 case Character -> {
-                    gCharacter = keyStroke.getCharacter();
-                    tg.putString(cursorPos, mc.rowPos(), Character.toString(gCharacter));
+                    character = keyStroke.getCharacter();
+                    
+                    textGraphics.putString(
+                        cursorPos, 
+                        mainContext.rowPos(), 
+                        Character.toString(character)
+                    );
+                    
                     cursorPos++;
 
-                    charInp.add(gCharacter);
+                    charInp.add(character);
                 }
                 case Backspace -> {
-                    gCharacter = ' ';
+                    character = ' ';
                     cursorPos--;
-                    if (cursorPos < nameOffset) cursorPos = nameOffset;
-                    tg.putString(cursorPos, mc.rowPos(), Character.toString(gCharacter));
 
-                    if (!charInp.isEmpty())
+                    if (cursorPos < nameOffset) {
+                        cursorPos = nameOffset;
+                    }
+
+                    textGraphics.putString(
+                        cursorPos, 
+                        mainContext.rowPos(), 
+                        Character.toString(character)
+                    );
+
+                    if (!charInp.isEmpty()) {
                         charInp.removeLast();
+                    }
                 }
                 case Enter -> {
                     for (Character ch : charInp) {
                         sBuilder.append(ch);
                     }
-                    
+
                     String userInp = sBuilder.toString();
-                    
+
                     try {
-                        double doubleInp = Double.parseDouble(userInp);
+                        double doubleInp = 
+                            Double.parseDouble(userInp);
+                        
                         if (setValue(doubleInp))
-                            Logging.writeLog(LogType.DEBUG, LABEL + " set to " + doubleInp);
+                            Logging.writeLog(
+                                LogType.DEBUG, 
+                                label 
+                                + " set to " 
+                                + doubleInp
+                            );
                         else {
-                            throwUserError(mc, nameOffset);
+                            throwUserError(
+                                mainContext, 
+                                nameOffset
+                            );
                         }
                     }
                     catch (NumberFormatException e) {
-                        throwUserError(mc, nameOffset);
+                        throwUserError(
+                            mainContext, 
+                            nameOffset
+                        );
                     }
 
                     break loop;
@@ -124,17 +176,24 @@ public class EditableItem extends Item {
         return true;
     }
 
-    private void throwUserError(MenuContext mc, int nameOffset) throws IOException {
-        Terminal tm = mc.tm();
-        TextGraphics tg = mc.tg();
+    private void throwUserError(
+        MenuContext mc, 
+        int nameOffset
+    ) throws IOException {
+        Terminal tm = mc.terminal();
+        TextGraphics tg = mc.textGraphics();
 
         tg.enableModifiers(SGR.UNDERLINE);
-        tg.setForegroundColor(Indexed.fromRGB(255, 70, 70));
+        
+        tg.setForegroundColor(Indexed
+            .fromRGB(255, 70, 70));
+        
         tg.putString(
-                nameOffset, 
-                mc.rowPos(), 
-                "Invalid Value"
-                );
+            nameOffset, 
+            mc.rowPos(), 
+            "Invalid Value"
+        );
+
         tg.disableModifiers(SGR.UNDERLINE);
         tg.setForegroundColor(ANSI.DEFAULT);
     

@@ -6,12 +6,12 @@ public enum LogType {
     WARN("[ WARN ]", 2),
     ERROR("[ ERROR ]", 3);
 
-    public final String LABEL;
-    public final int SEVERITY;
+    public final String label;
+    public final int severity;
 
     private LogType(String label, int logLevel) {
-        this.LABEL = label;
-        this.SEVERITY = logLevel;
+        this.label = label;
+        this.severity = logLevel;
     }
 }
 

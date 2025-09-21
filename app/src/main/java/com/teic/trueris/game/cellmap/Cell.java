@@ -10,29 +10,30 @@ public class Cell {
     public static final Cell TCELL = new Cell(Color.PURPLE);
     public static final Cell ICELL = new Cell(Color.CYAN);
 
-    public final Color COLOR;
+    public final Color color;
     private boolean isPlaced;
     private boolean isHighlight;
     private boolean isCopy;
 
     private Cell() {
-        this.COLOR = Color.DEFAULT;
+        this.color = Color.DEFAULT;
     }
 
     private Cell(Color color) {
-        this.COLOR = color;
+        this.color = color;
     }
 
     private Cell(Cell og) {
-        this.COLOR = og.COLOR;
+        this.color = og.color;
         this.isPlaced = og.isPlaced;
         this.isHighlight = og.isHighlight;
         this.isCopy = true;
     }
 
     public Cell copy() {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new IllegalStateException("Cannot copy a singleton empty cell");
+        }
 
         return new Cell(this);
     }
@@ -45,21 +46,23 @@ public class Cell {
     public boolean isHighlight() { return isHighlight; }
     
     public void setPlaced(boolean value) {
-        if (!isCopy)
+        if (!isCopy) {
             throw new IllegalStateException("Cannot modify a cell template");
-
-        if (value && isHighlight)
+        }
+        if (value && isHighlight) {
             throw new IllegalStateException("Placed and Highlight cannot both be true");
+        }
 
         this.isPlaced = value;
     }
 
-    public void setHighlight(boolean value) throws IllegalStateException {
-        if (!isCopy) 
+    public void setHighlight(boolean value) {
+        if (!isCopy) {
             throw new IllegalStateException("Cannot modify a cell template");
-
-        if (value && isPlaced) 
+        }
+        if (value && isPlaced) {
             throw new IllegalStateException("Highlight and Placed cannot both be true");
+        }
 
         this.isHighlight = value;
     }

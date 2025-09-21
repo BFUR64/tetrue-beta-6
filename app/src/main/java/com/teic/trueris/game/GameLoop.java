@@ -63,7 +63,10 @@ public class GameLoop {
                     Thread.sleep(remaining / MSEC);
                 }
                 catch (InterruptedException e) {
-                    Logging.writeStackTrace(LogType.ERROR, e);
+                    Logging.writeStackTrace(
+                        LogType.ERROR, 
+                        e
+                    );
                 }
             }
 
@@ -73,6 +76,7 @@ public class GameLoop {
                     ) {}
 
             long frameTime = System.nanoTime() - frameStart;
+
             timer += frameTime;
         }
 

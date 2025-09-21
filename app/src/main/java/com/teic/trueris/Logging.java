@@ -17,21 +17,31 @@ public class Logging {
     private static final DateTimeFormatter DATE_FORMAT =
         DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private static final int LOG_LEVEL = LogType.INFO.SEVERITY;
+    private static final int LOG_LEVEL = 
+        LogType.INFO.severity;
 
-    public static void writeStackTrace(LogType type, Exception error) {
-        if (type.SEVERITY < LOG_LEVEL)
+    public static void writeStackTrace(
+        LogType type, 
+        Exception error
+    ) {
+        if (type.severity < LOG_LEVEL) {
             return;
+        }
 
         ensureDirExists();
 
-        try (FileWriter file = new FileWriter(getFilePath(), true);
-                PrintWriter pWriter = new PrintWriter(file)) {
+        try (
+            FileWriter file = 
+                new FileWriter(getFilePath(), true);
+
+            PrintWriter pWriter = new PrintWriter(file)
+        ) {
             pWriter.println(formatLog(
-                        type, 
-                        error.getClass().getSimpleName() 
-                        + ": " + error.getMessage()));
-            
+                type, 
+                error.getClass().getSimpleName() 
+                + ": " + error.getMessage()
+            ));
+
             error.printStackTrace(pWriter);
         }
         catch (IOException e) {
@@ -39,14 +49,22 @@ public class Logging {
         }
     }
 
-    public static void writeLog(LogType type, String log) {
-        if (type.SEVERITY < LOG_LEVEL)
+    public static void writeLog(
+        LogType type, 
+        String log
+    ) {
+        if (type.severity < LOG_LEVEL) {
             return;
+        }
 
         ensureDirExists();
 
-        try (FileWriter file = new FileWriter(getFilePath(), true);
-                PrintWriter pWriter = new PrintWriter(file)) {
+        try (
+            FileWriter file = 
+                new FileWriter(getFilePath(), true);
+
+            PrintWriter pWriter = new PrintWriter(file)
+        ) {
             pWriter.println(formatLog(type, log));
         }
         catch (IOException e) {
@@ -57,8 +75,12 @@ public class Logging {
     public static void writeBreakLine() {
         ensureDirExists();
 
-        try (FileWriter file = new FileWriter(getFilePath(), true);
-                PrintWriter pWriter = new PrintWriter(file)) {
+        try (
+            FileWriter file = 
+                new FileWriter(getFilePath(), true);
+
+            PrintWriter pWriter = new PrintWriter(file)
+        ) {
             String output = "";
             int len = 60;
 
@@ -73,10 +95,13 @@ public class Logging {
         }
     }
 
-    private static String formatLog(LogType type, String log) {
+    private static String formatLog(
+        LogType type, 
+        String log
+    ) {
         return LocalDate.now().format(DATE_FORMAT)
             + " " + LocalTime.now().format(TIME_FORMAT)
-            + " " + type.LABEL
+            + " " + type.label
             + " " + log;
     }
 
