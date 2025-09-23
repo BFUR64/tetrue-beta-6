@@ -16,18 +16,18 @@ public class GameLoop {
     private static final int MSEC = 1_000_000;
     private static final int SLEEP_THRESHOLD = 2_000_000;
 
-    private final Terminal tm;
-    private final TextGraphics tg;
-    private final Config cfg;
+    private final Terminal terminal;
+    private final TextGraphics textGraphics;
+    private final Config config;
 
     private boolean running;
     private final int targetFps;
     private final int nsPerFrame;
 
     public GameLoop(Terminal tm, TextGraphics tg, Config cfg) {
-        this.tm = tm;
-        this.tg = tg;
-        this.cfg = cfg;
+        this.terminal = tm;
+        this.textGraphics = tg;
+        this.config = cfg;
 
         this.targetFps = (int) cfg.getTargetFps();
         this.nsPerFrame = NSEC / targetFps;
@@ -36,13 +36,13 @@ public class GameLoop {
     public void run() throws IOException {
         Logging.writeLog(LogType.INFO, "Game started");
         
-        tm.clearScreen();
-        tm.flush();
+        terminal.clearScreen();
+        terminal.flush();
 
         SoundManager sManager = new SoundManager();
         sManager.playMusic(Sound.BG_MUSIC);
 
-        Renderer renderer = new Renderer(tm, tg, cfg);
+        Renderer renderer = new Renderer(terminal, textGraphics, config);
         renderer.renderBorder();
 
         running = true;
@@ -82,13 +82,13 @@ public class GameLoop {
 
         sManager.stopMusic();
         
-        tm.clearScreen();
+        terminal.clearScreen();
         
         Logging.writeLog(LogType.INFO, "Game exit");
     }
 
     private void calculations() throws IOException {
-        handleKey(tm.pollInput());
+        handleKey(terminal.pollInput());
     }
 
     private void handleKey(KeyStroke key) {

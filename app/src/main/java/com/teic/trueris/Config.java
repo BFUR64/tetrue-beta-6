@@ -18,6 +18,7 @@ public class Config {
     private static final double DEF_GRAVITY = 1.0;
     private static final double DEF_HEIGHT = 20;
     private static final double DEF_WIDTH = 10;
+    private static final double DEF_BUFFER = 1;
 
     private static final double MIN_FPS = 30;
     private static final double MAX_FPS = 120;
@@ -31,10 +32,14 @@ public class Config {
     private static final double MIN_WIDTH = 10;
     private static final double MAX_WIDTH = 30;
 
+    private static final double MIN_BUFFER = 1;
+    private static final double MAX_BUFFER = 1;
+
     private double targetFps;
     private double gravity;
     private double height;
     private double width;
+    private double buffer;
 
     public static Config readConfig() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -106,6 +111,7 @@ public class Config {
         this.gravity = DEF_GRAVITY;
         this.height = DEF_HEIGHT;
         this.width = DEF_WIDTH;
+        this.buffer = DEF_BUFFER;
     }
 
     private boolean ensureValidSettings() {
@@ -125,6 +131,10 @@ public class Config {
         }
         if (!isWidthValid(width)) {
             width = DEF_WIDTH;
+            fixes++;
+        }
+        if (!isBufferValid(buffer)) {
+            width = DEF_BUFFER;
             fixes++;
         }
         
@@ -165,6 +175,10 @@ public class Config {
         return isValueValid(value, MIN_WIDTH, MAX_WIDTH);
     }
 
+    private boolean isBufferValid(double value) {
+        return isValueValid(value, MIN_BUFFER, MAX_BUFFER);
+    }
+
     private boolean isValueValid(
         double value, 
         double min, 
@@ -181,6 +195,7 @@ public class Config {
     public double getGravity() { return gravity; }
     public double getHeight() { return height; }
     public double getWidth() { return width; }
+    public double getBuffer() { return buffer; }
 
     public boolean setTargetFps(double value) {
         boolean isValid = isTargetFpsValid(value);
