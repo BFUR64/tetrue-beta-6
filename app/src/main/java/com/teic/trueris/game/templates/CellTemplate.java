@@ -1,45 +1,45 @@
-package com.teic.trueris.game.cellmap;
+package com.teic.trueris.game.templates;
 
-public class Cell {
-    public static final Cell EMPTY = new Cell();
-    public static final Cell OCELL = new Cell(Color.YELLOW);
-    public static final Cell JCELL = new Cell(Color.BLUE);
-    public static final Cell LCELL = new Cell(Color.ORANGE);
-    public static final Cell SCELL = new Cell(Color.GREEN);
-    public static final Cell ZCELL = new Cell(Color.RED);
-    public static final Cell TCELL = new Cell(Color.PURPLE);
-    public static final Cell ICELL = new Cell(Color.CYAN);
+public class CellTemplate {
+    public static final CellTemplate EMPTY = new CellTemplate();
+    public static final CellTemplate OCELL = new CellTemplate(Color.YELLOW);
+    public static final CellTemplate JCELL = new CellTemplate(Color.BLUE);
+    public static final CellTemplate LCELL = new CellTemplate(Color.ORANGE);
+    public static final CellTemplate SCELL = new CellTemplate(Color.GREEN);
+    public static final CellTemplate ZCELL = new CellTemplate(Color.RED);
+    public static final CellTemplate TCELL = new CellTemplate(Color.PURPLE);
+    public static final CellTemplate ICELL = new CellTemplate(Color.CYAN);
 
     public final Color color;
     private boolean isPlaced;
     private boolean isHighlight;
     private boolean isCopy;
 
-    private Cell() {
+    private CellTemplate() {
         this.color = Color.DEFAULT;
     }
 
-    private Cell(Color color) {
+    private CellTemplate(Color color) {
         this.color = color;
     }
 
-    private Cell(Cell og) {
+    private CellTemplate(CellTemplate og) {
         this.color = og.color;
         this.isPlaced = og.isPlaced;
         this.isHighlight = og.isHighlight;
         this.isCopy = true;
     }
 
-    public Cell copy() {
+    public CellTemplate copy() {
         if (isEmpty()) {
             throw new IllegalStateException("Cannot copy a singleton empty cell");
         }
 
-        return new Cell(this);
+        return new CellTemplate(this);
     }
 
     public boolean isEmpty() {
-        return this == Cell.EMPTY;
+        return this == CellTemplate.EMPTY;
     }
 
     public boolean isPlaced() { return isPlaced; }

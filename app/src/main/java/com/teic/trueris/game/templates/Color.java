@@ -1,4 +1,4 @@
-package com.teic.trueris.game.cellmap;
+package com.teic.trueris.game.templates;
 
 public enum Color {
     DEFAULT, GREY, YELLOW,

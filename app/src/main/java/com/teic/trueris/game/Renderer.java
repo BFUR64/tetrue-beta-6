@@ -11,7 +11,7 @@ import com.googlecode.lanterna.TextColor.Indexed;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.teic.trueris.Config;
-import com.teic.trueris.game.cellmap.Color;
+import com.teic.trueris.game.templates.Color;
 
 public class Renderer {
     private final Terminal terminal;
