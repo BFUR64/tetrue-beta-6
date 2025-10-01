@@ -11,7 +11,7 @@ public class BlockCollision {
         this.gridData = gridData;
     }
 
-    public boolean checkCollision(BlockManager blockManager) {
+    public boolean isValid(BlockManager blockManager) {
         int blockSize = blockManager.getBlockSize();
         int blockRowPos = blockManager.blockRowPos();
         int blockColPos = blockManager.blockColPos();
