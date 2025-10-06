@@ -12,7 +12,7 @@ public class Collision {
         this.gridData = gridData;
     }
 
-    public boolean isValid(BlockData blockData) {
+    public boolean isPositionValid(BlockData blockData) {
         CellTemplate[][] block = blockData.getRotatedBlockCopy();
 
         int blockSize = block.length;
