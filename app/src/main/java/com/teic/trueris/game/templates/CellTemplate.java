@@ -68,7 +68,7 @@ public class CellTemplate {
         }
         */
 
-        this.isHighlight = value;
+        // this.isHighlight = value;
     }
 }
 

@@ -3,11 +3,9 @@ package com.teic.trueris.game.grid;
 import com.teic.trueris.Config;
 
 public class GridManager {
-    // New Role Change: GridManager should manage setting 
-    // and getting cells in GridData. Change BlockManager to 
-    // BlockData instead? Smart enough to validate its pos, 
-    // but not too smart that it does Grid-level ops 
-    //
+    // New Role Change: GridManger is a high level 
+    // interaction layer between the GameLoop and 
+    // the moving of blocks 
     // BlockData is now a dumb class 
     
     private final GridData gridData;
@@ -22,6 +20,7 @@ public class GridManager {
     ) {
         this.gridData = gridData;
         this.block = blockData;
+        this.blockHighlight = block.copy();
 
         collision = new Collision(config, gridData);
     }

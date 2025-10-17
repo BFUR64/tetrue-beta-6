@@ -15,20 +15,6 @@ public class BlockData {
     private Direction prevBlockRotation = blockRotation;
     private int prevBlockRow;
     private int prevBlockCol;
-
-    // Let BlockData handle BlockCollision. GridManager does 
-    // not need to know the specific implementations of how 
-    // BlockData validates if it is valid or not. Only 
-    // BlockData is supposed to know that!!! 
-
-    // moveDown, etc. stays as it is. Smart enough to revert 
-    // if the position is invalid and passes a bool. The 
-    // difference is a new method/s, either named lockBlock 
-    // or setBlock, or removeBlock, or something similar to 
-    // indicate: Yes. Commit the write. I allow you to write 
-    // to grid. Not sure if it is a good idea or if I should 
-    // let GridManager do that instead. But it makes things, 
-    // uh, simpler, *maybe* 
     
     public BlockData(CellTemplate[][] block) {
         this.block = block;
@@ -92,7 +78,7 @@ public class BlockData {
     }
 
     private CellTemplate[][] rotateBlockNTimes(int amount) {
-        CellTemplate[][] newBlock = deepCopy(block);
+        CellTemplate[][] newBlock = copy(block);
 
         for (int i = 0; i < amount; i++) {
             newBlock = rotateArrayRight(newBlock);
@@ -118,7 +104,11 @@ public class BlockData {
         return newBlock;
     }
 
-    private CellTemplate[][] deepCopy(
+    public BlockData copy() {
+        return new BlockData(copy(this.block));
+    }
+
+    private CellTemplate[][] copy(
         CellTemplate[][] original
     ) {
         int blockSize = original.length;
