@@ -11,7 +11,7 @@ public class CellTemplate {
     public static final CellTemplate ICELL = new CellTemplate(Color.CYAN);
 
     public final Color color;
-    private boolean isPlaced;
+    // private boolean isPlaced;
     // private boolean isHighlight;
     private boolean isCopy;
 
@@ -25,7 +25,7 @@ public class CellTemplate {
 
     private CellTemplate(CellTemplate original) {
         this.color = original.color;
-        this.isPlaced = original.isPlaced;
+        // this.isPlaced = original.isPlaced;
         // this.isHighlight = og.isHighlight;
         this.isCopy = true;
     }
@@ -35,6 +35,10 @@ public class CellTemplate {
             throw new IllegalStateException("Cannot copy a singleton empty cell");
         }
 
+        if (isCopy) {
+            throw new IllegalStateException("Cannot make a new copy from a copy");
+        }
+
         return new CellTemplate(this);
     }
 
@@ -42,33 +46,33 @@ public class CellTemplate {
         return this == CellTemplate.EMPTY;
     }
 
-    public boolean isPlaced() { return isPlaced; }
+    // public boolean isPlaced() { return isPlaced; }
     // public boolean isHighlight() { return isHighlight; }
     
-    public void setPlaced(boolean value) {
-        if (!isCopy) {
-            throw new IllegalStateException("Cannot modify a cell template");
-        }
-        /*
-        if (value && isHighlight) {
-            throw new IllegalStateException("Placed and Highlight cannot both be true");
-        }
-        */
+    // public void setPlaced(boolean value) {
+    //     if (!isCopy) {
+    //         throw new IllegalStateException("Cannot modify a cell template");
+    //     }
+    //     /*
+    //     if (value && isHighlight) {
+    //         throw new IllegalStateException("Placed and Highlight cannot both be true");
+    //     }
+    //     */
 
-        this.isPlaced = value;
-    }
+    //     this.isPlaced = value;
+    // }
 
-    public void setHighlight(boolean value) {
-        if (!isCopy) {
-            throw new IllegalStateException("Cannot modify a cell template");
-        }
-        /*
-        if (value && isPlaced) {
-            throw new IllegalStateException("Highlight and Placed cannot both be true");
-        }
-        */
+    // public void setHighlight(boolean value) {
+    //     if (!isCopy) {
+    //         throw new IllegalStateException("Cannot modify a cell template");
+    //     }
+    //     /*
+    //     if (value && isPlaced) {
+    //         throw new IllegalStateException("Highlight and Placed cannot both be true");
+    //     }
+    //     */
 
-        // this.isHighlight = value;
-    }
+    //     // this.isHighlight = value;
+    // }
 }
 

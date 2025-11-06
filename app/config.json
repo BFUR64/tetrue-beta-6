@@ -1,0 +1,7 @@
+{
+  "targetFps" : 60.0,
+  "gravity" : 1.0,
+  "height" : 20.0,
+  "width" : 10.0,
+  "buffer" : 1.0
+}

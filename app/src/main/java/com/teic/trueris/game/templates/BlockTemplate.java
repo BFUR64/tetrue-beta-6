@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class BlockTemplate {
-    private static final int BLOCK_SET_CAPACITY = 7;
+    public static final int BLOCK_SET_CAPACITY = 7;
     private static final List<BlockTemplate> BLOCK_SET =
         new ArrayList<>(BLOCK_SET_CAPACITY);
     

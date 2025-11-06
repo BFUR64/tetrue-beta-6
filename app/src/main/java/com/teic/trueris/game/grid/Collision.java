@@ -48,7 +48,7 @@ public class Collision {
     }
 
     private boolean isColliding(int gridRow, int gridCol) {
-        return gridData.getCell(gridRow, gridCol).isPlaced();
+        return !gridData.getCell(gridRow, gridCol).isEmpty();
     }
 }
 

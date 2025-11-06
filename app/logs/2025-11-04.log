@@ -1,0 +1,20 @@
+------------------------------------------------------------
+2025-11-04 16:15:40 [ INFO ] Session start
+2025-11-04 16:15:40 [ INFO ] App Start
+2025-11-04 16:15:41 [ INFO ] Reading config
+2025-11-04 16:15:41 [ WARN ] FileNotFoundException: config.json (No such file or directory)
+java.io.FileNotFoundException: config.json (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+	at com.fasterxml.jackson.core.TokenStreamFactory._fileInputStream(TokenStreamFactory.java:318)
+	at com.fasterxml.jackson.core.JsonFactory.createParser(JsonFactory.java:1219)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3752)
+	at com.teic.trueris.Config.readConfig(Config.java:65)
+	at com.teic.trueris.App.<init>(App.java:78)
+	at com.teic.trueris.App.main(App.java:41)
+2025-11-04 16:15:41 [ INFO ] Config written
+2025-11-04 16:15:41 [ INFO ] Config loaded
+2025-11-04 16:15:44 [ INFO ] Sounds loaded
+2025-11-04 16:15:44 [ INFO ] Menu started: <<< TetrueBeta 6 >>>
+2025-11-04 16:15:47 [ INFO ] Game started

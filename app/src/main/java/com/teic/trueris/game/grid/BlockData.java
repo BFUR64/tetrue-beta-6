@@ -1,6 +1,6 @@
 package com.teic.trueris.game.grid;
 
-import com.teic.trueris.game.templates.BlockTemplate;
+// import com.teic.trueris.game.templates.BlockTemplate;
 import com.teic.trueris.game.templates.CellTemplate;
 
 public class BlockData {
@@ -136,4 +136,3 @@ public class BlockData {
 enum Direction {
     UP, RIGHT, DOWN, LEFT;
 }
-
