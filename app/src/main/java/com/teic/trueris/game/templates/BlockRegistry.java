@@ -4,13 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BlockTemplate {
-    public static final int BLOCK_SET_CAPACITY = 7;
-    private static final List<BlockTemplate> BLOCK_SET =
-        new ArrayList<>(BLOCK_SET_CAPACITY);
-    
-    private final int size;
-    private final List<CellTemplate> cells;
+public class BlockRegistry {
+    private static final List<BlockTemplate> BLOCK_SET = new ArrayList<>();
 
     static {
         BLOCK_SET.add(new BlockTemplate(
@@ -77,32 +72,36 @@ public class BlockTemplate {
         ));
     }
 
-    private BlockTemplate(int blockSize, List<CellTemplate> cells) {
-        this.size = blockSize;
-        this.cells = cells;
-    }
-
     public static List<BlockTemplate> values() {
         return Collections.unmodifiableList(BLOCK_SET);
     }
 
-    public static CellTemplate[][] copyBlock(int index) {
-        BlockTemplate block = BLOCK_SET.get(index);
-        int blockSize = block.size;
+    public static int size() {
+        return BLOCK_SET.size();
+    }
 
-        CellTemplate[][] blockCopy = new CellTemplate[blockSize][blockSize];
+    public static class BlockTemplate {
+        private final int size;
+        private final List<CellTemplate> cells;
 
-        for (int i = 0; i < block.cells.size(); i++) {
-            CellTemplate cell = block.cells.get(i);
-
-            blockCopy[i / blockSize][i % blockSize] = (
-                cell.isEmpty()
-                ? CellTemplate.EMPTY 
-                : cell.copy()
-            );
+        protected BlockTemplate(int size, List<CellTemplate> cells) {
+            this.size = size;
+            this.cells = cells;
         }
+        
+        public CellTemplate[][] copyBlock() {
+            CellTemplate[][] blockCopy = new CellTemplate[size][size];
 
-        return blockCopy;
+            for (int row = 0; row < size; row++) {
+                for (int col = 0; col < size; col++) {
+                    int idx = row * size + col;
+                    CellTemplate cell = cells.get(idx);
+                    blockCopy[row][col] = cell.isEmpty() ? CellTemplate.EMPTY : cell.copy();
+                }
+            }
+
+            return blockCopy;
+        }
     }
 }
 

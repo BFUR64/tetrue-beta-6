@@ -1,6 +1,5 @@
 package com.teic.trueris.game.grid;
 
-// import com.teic.trueris.game.templates.BlockTemplate;
 import com.teic.trueris.game.templates.CellTemplate;
 
 public class BlockData {
@@ -8,9 +7,6 @@ public class BlockData {
     private Direction blockRotation = Direction.UP;
     private int blockRow;
     private int blockCol;
-
-    /*private CellTemplate[][] prevBlockRotation = 
-        BlockTemplate.EMPTY_BLOCK;;*/
 
     private Direction prevBlockRotation = blockRotation;
     private int prevBlockRow;
@@ -20,6 +16,9 @@ public class BlockData {
         this.block = block;
     }
 
+    // =====================
+    // Movement
+    // =====================
     public void moveDown() {
         prevBlockRow = blockRow;
         blockRow++;
@@ -35,6 +34,17 @@ public class BlockData {
         blockCol++;
     }
 
+    public void revertPosition() {
+        blockRow = prevBlockRow;
+        prevBlockRow = 0;
+
+        blockCol = prevBlockCol;
+        prevBlockCol = 0;
+    }
+
+    // =====================
+    // Rotation
+    // =====================
     public void rotateLeft() {
         Direction[] directions = Direction.values();
 
@@ -58,20 +68,17 @@ public class BlockData {
         
         blockRotation = directions[rotationIndex];
     }
-        
-    public void revertPosition() {
-        blockRow = prevBlockRow;
-        prevBlockRow = 0;
 
-        blockCol = prevBlockCol;
-        prevBlockCol = 0;
-    }
-
-    
     public void revertBlockRotation() {
         blockRotation = prevBlockRotation;
         prevBlockRotation = Direction.UP;
     }
+
+    // =====================
+    // Block Array Copying
+    // =====================
+
+    // rotateArrayRight → used by rotateBlockNTimes → used by getRotatedBlockCopy
 
     public CellTemplate[][] getRotatedBlockCopy() {
         return rotateBlockNTimes(blockRotation.ordinal());
@@ -104,7 +111,10 @@ public class BlockData {
         return newBlock;
     }
 
-    public BlockData copy() {
+    // =====================
+    // Block Object Copying
+    // =====================
+    public BlockData copyBlockData() {
         return new BlockData(copy(this.block));
     }
 
@@ -124,6 +134,9 @@ public class BlockData {
         return copy;
     }
 
+    // =====================
+    // Size / Position Info
+    // =====================
     public int blockRow() {
         return blockRow;
     }
@@ -131,8 +144,13 @@ public class BlockData {
     public int blockCol() {
         return blockCol;
     }
+
+    public int blockSize() {
+        return block.length;
+    }
 }
 
 enum Direction {
     UP, RIGHT, DOWN, LEFT;
 }
+

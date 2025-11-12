@@ -4,51 +4,70 @@ import com.teic.trueris.Config;
 import com.teic.trueris.game.templates.CellTemplate;
 
 public class GridData {
-    private final CellTemplate[][] cellGrid;
-    private final CellTemplate[][] blockGrid;
-    private final CellTemplate[][] previewGrid;
+    private final CellTemplate[][] solidGrid;
+    private final CellTemplate[][] activeGrid;
+    private final CellTemplate[][] ghostGrid;
+
+    private final int gridRow;
+    private final int gridCol;
 
     public GridData(Config config) {
-        int rows = (int) (
+        gridRow = (int) (
             config.getHeight() + config.getBuffer()
         );
-        int cols = (int) config.getWidth();
+        gridCol = (int) config.getWidth();
 
-        cellGrid = new CellTemplate[rows][cols];
-        blockGrid = new CellTemplate[rows][cols];
-        previewGrid = new CellTemplate[rows][cols];
+        solidGrid = new CellTemplate[gridRow][gridCol];
+        activeGrid = new CellTemplate[gridRow][gridCol];
+        ghostGrid = new CellTemplate[gridRow][gridCol];
 
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                cellGrid[row][col] = CellTemplate.EMPTY;
-                blockGrid[row][col] = CellTemplate.EMPTY;
-                previewGrid[row][col] = CellTemplate.EMPTY;
+        for (int row = 0; row < gridRow; row++) {
+            for (int col = 0; col < gridCol; col++) {
+                solidGrid[row][col] = CellTemplate.EMPTY;
+                activeGrid[row][col] = CellTemplate.EMPTY;
+                ghostGrid[row][col] = CellTemplate.EMPTY;
             }
         }
     }
 
-    public CellTemplate getCell(int row, int col) {
-        return cellGrid[row][col];
+    public CellTemplate getSolidCell(int row, int col) {
+        return solidGrid[row][col];
     }
 
-    public CellTemplate getBlockCell(int row, int col) {
-        return blockGrid[row][col];
+    public CellTemplate getActiveCell(int row, int col) {
+        return activeGrid[row][col];
     }
 
-    public CellTemplate getPreviewCell(int row, int col) {
-        return previewGrid[row][col];
+    public CellTemplate getGhostCell(int row, int col) {
+        return ghostGrid[row][col];
     }
 
-    void setCell(CellTemplate cell, int row, int col) {
-        cellGrid[row][col] = cell;
+    void setSolidCell(CellTemplate cell, int row, int col) {
+        solidGrid[row][col] = cell;
     }
 
-    void setBlock(CellTemplate cell, int row, int col) {
-        blockGrid[row][col] = cell;
+    void setActiveCell(CellTemplate cell, int row, int col) {
+        activeGrid[row][col] = cell;
     }
 
-    void setPreviewCell(CellTemplate cell, int row, int col) {
-        previewGrid[row][col] = cell;
+    void setGhostCell(CellTemplate cell, int row, int col) {
+        ghostGrid[row][col] = cell;
+    }
+
+    public void eraseActiveGrid() {
+        for (int row = 0; row < gridRow; row++) {
+            for (int col = 0; col < gridCol; col++) {
+                activeGrid[row][col] = CellTemplate.EMPTY;
+            }
+        }
+    }
+
+    public void eraseGhostGrid() {
+        for (int row = 0; row < gridRow; row++) {
+            for (int col = 0; col < gridCol; col++) {
+                ghostGrid[row][col] = CellTemplate.EMPTY;
+            }
+        }
     }
 }
 
