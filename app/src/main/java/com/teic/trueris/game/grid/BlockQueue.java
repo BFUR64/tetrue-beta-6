@@ -8,7 +8,7 @@ import com.teic.trueris.game.templates.BlockRegistry;
 import com.teic.trueris.game.templates.CellTemplate;
 
 public class BlockQueue {
-    private static final int BLOCK_QUEUE_THRESHHOLD = 1;
+    private static final int MIN_BLOCK_QUEUE_SIZE = 1;
     
     private List<BlockRegistry.BlockTemplate> blockQueue;
 
@@ -17,8 +17,8 @@ public class BlockQueue {
     }
 
     public CellTemplate[][] getRandomBlock() {
-        if (blockQueue.size() < BLOCK_QUEUE_THRESHHOLD) {
-            addtoQueue(generateSevenBag());
+        if (blockQueue.size() < MIN_BLOCK_QUEUE_SIZE) {
+            addtoBlockQueue(createRandomizedBag());
         }
         
         CellTemplate[][] cells = blockQueue.getFirst().copyBlock();
@@ -32,11 +32,11 @@ public class BlockQueue {
         return Collections.unmodifiableList(blockQueue);
     }
 
-    private void addtoQueue(List<BlockRegistry.BlockTemplate> blocks) {
+    private void addtoBlockQueue(List<BlockRegistry.BlockTemplate> blocks) {
         blockQueue.addAll(blocks);
     }
 
-    private List<BlockRegistry.BlockTemplate> generateSevenBag() {
+    private List<BlockRegistry.BlockTemplate> createRandomizedBag() {
         List<BlockRegistry.BlockTemplate> sevenBag = new LinkedList<>(BlockRegistry.values());
         Collections.shuffle(sevenBag);
 

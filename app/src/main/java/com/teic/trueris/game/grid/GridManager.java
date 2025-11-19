@@ -4,12 +4,6 @@ import com.teic.trueris.Config;
 import com.teic.trueris.game.templates.CellTemplate;
 
 public class GridManager {
-    // Private methods to write to Grid
-
-    // Public methods to move block
-
-    // GameLoop shouldn't manage spawning of new Blocks, placing of blocks, etc., just returns bools if it gets locked to grid
-    // GridManager should manage the above, but not be integrated, so another class for giving new blocks, spawning a seven-bag, etc.
     private final Collision collision;
 
     private final GridData gridData;
