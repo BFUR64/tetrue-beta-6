@@ -34,10 +34,20 @@ public class BlockData {
         blockCol++;
     }
 
-    public void revertPosition() {
+    // public void revertPosition() {
+    //     blockRow = prevBlockRow;
+    //     prevBlockRow = 0;
+
+    //     blockCol = prevBlockCol;
+    //     prevBlockCol = 0;
+    // }
+
+    public void revertRowPosition() {
         blockRow = prevBlockRow;
         prevBlockRow = 0;
+    }
 
+    public void revertColPosition() {
         blockCol = prevBlockCol;
         prevBlockCol = 0;
     }

@@ -20,7 +20,7 @@ public class BlockQueue {
         if (blockQueue.size() < MIN_BLOCK_QUEUE_SIZE) {
             addtoBlockQueue(createRandomizedBag());
         }
-        
+
         CellTemplate[][] cells = blockQueue.getFirst().copyBlock();
         blockQueue.removeFirst();
 

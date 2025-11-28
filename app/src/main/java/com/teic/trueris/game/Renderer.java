@@ -11,11 +11,14 @@ import com.googlecode.lanterna.TextColor.Indexed;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.teic.trueris.Config;
+import com.teic.trueris.game.grid.GridData;
+import com.teic.trueris.game.templates.CellTemplate;
 import com.teic.trueris.game.templates.Color;
 
 public class Renderer {
     private final Terminal terminal;
     private final TextGraphics textGraphics;
+    private final GridData gridData;
     private final Config config;
 
     private final int borderHeight;
@@ -24,11 +27,13 @@ public class Renderer {
     public Renderer(
         Terminal terminal, 
         TextGraphics textGraphics, 
+        GridData gridData, 
         Config config
     ) {
         this.terminal = terminal;
         this.textGraphics = textGraphics;
         this.config = config;
+        this.gridData = gridData;
 
         borderHeight = (int) config.getHeight() + 2;
         borderWidth = (int) config.getWidth() + 2;
@@ -44,11 +49,42 @@ public class Renderer {
                     drawTile(
                         col, 
                         row, 
-                        "" + Symbols.BLOCK_SOLID, 
+                        "" + Symbols.BLOCK_SPARSE, 
                         Color.GREY
                     );
                     continue;
                 }
+            }
+        }
+    }
+
+    public void updateScreen() {
+        clearBorderContents();
+
+        for (int row = 0; row < (int) config.getHeight(); row++) {
+            for (int col = 0; col < (int) config.getWidth(); col++) {
+                CellTemplate cell = gridData.getSolidCell(row, col);
+                if (!cell.isEmpty()) {
+                    drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SOLID, cell.color);
+                }
+
+                cell = gridData.getGhostCell(row, col);
+                if (!cell.isEmpty()) {
+                    drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SPARSE, cell.color);
+                }
+
+                cell = gridData.getActiveCell(row, col);
+                if (!cell.isEmpty()) {
+                    drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SOLID, cell.color);
+                }
+            }
+        }
+    }
+
+    private void clearBorderContents() {
+        for (int row = 0; row < (int) config.getHeight(); row++) {
+            for (int col = 0; col < (int) config.getWidth(); col++) {
+                drawTile(col + 1, row + 1, " ", Color.DEFAULT);
             }
         }
     }
@@ -76,12 +112,12 @@ public class Renderer {
         Color color
     ) {
         textGraphics.setBackgroundColor(getTextColor(color));
+        textGraphics.setForegroundColor(getTextColor(color));
         
         textGraphics.putString(col * 2, row, out);
         textGraphics.putString(col * 2 + 1, row, out);
         
-        textGraphics.setBackgroundColor(
-            getTextColor(Color.DEFAULT)
-        );
+        textGraphics.setBackgroundColor(getTextColor(Color.DEFAULT));
+        textGraphics.setForegroundColor(getTextColor(Color.DEFAULT));
     }
 }

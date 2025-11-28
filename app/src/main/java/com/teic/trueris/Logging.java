@@ -18,7 +18,7 @@ public class Logging {
         DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private static final int LOG_LEVEL = 
-        LogType.INFO.severity;
+        LogType.DEBUG.severity;
 
     public static void writeStackTrace(
         LogType type, 

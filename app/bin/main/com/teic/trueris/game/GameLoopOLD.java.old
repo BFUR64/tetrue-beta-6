@@ -9,7 +9,7 @@ import com.teic.trueris.Config;
 import com.teic.trueris.LogType;
 import com.teic.trueris.Logging;
 
-public class GameLoop {
+public class GameLoopOLD {
     private static final int NSEC = 1_000_000_000;
     private static final int MSEC = 1_000_000;
     private static final int SLEEP_THRESHOLD = 2_000_000;

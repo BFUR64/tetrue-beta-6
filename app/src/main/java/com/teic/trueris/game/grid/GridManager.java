@@ -1,10 +1,16 @@
 package com.teic.trueris.game.grid;
 
+import java.util.Scanner;
+
 import com.teic.trueris.Config;
+import com.teic.trueris.LogType;
+import com.teic.trueris.Logging;
 import com.teic.trueris.game.templates.CellTemplate;
 
 public class GridManager {
     private final Collision collision;
+
+    private final Config config;
 
     private final GridData gridData;
 
@@ -15,6 +21,7 @@ public class GridManager {
 
     public GridManager(Config config, GridData gridData) {
         this.gridData = gridData;
+        this.config = config;
 
         collision = new Collision(config, gridData);
 
@@ -25,20 +32,23 @@ public class GridManager {
         ghostBlock = activeBlock.copyBlockData();
     }
 
+    // =====================
+    // Movement
+    // =====================
     public boolean moveBlockDown() {
         activeBlock.moveDown();
 
         boolean isPositionValid = collision.isPositionValid(activeBlock);
 
         if (!isPositionValid) {
-            activeBlock.revertPosition();
+            activeBlock.revertRowPosition();
 
             writeToSolidGrid(activeBlock);
             gridData.eraseActiveGrid();
             gridData.eraseGhostGrid();
 
-            // Spawn a new block?
-            // Spawn a new ghostBlock?
+            activeBlock = new BlockData(blockQueue.getRandomBlock());
+            // ghostBlock = activeBlock.copyBlockData();
 
             return false;
         }
@@ -50,17 +60,83 @@ public class GridManager {
     }
 
     public void dropBlock() {
-
+        while (moveBlockDown()) {}
     }
 
     public boolean moveBlockLeft() {
-        return false;
+        activeBlock.moveLeft();
+
+        boolean isPositionValid = collision.isPositionValid(activeBlock);
+
+        if (!isPositionValid) {
+            activeBlock.revertColPosition();
+
+            return false;
+        }
+
+        gridData.eraseActiveGrid();
+        writeToActiveGrid(activeBlock);
+
+        return true;
     }
 
     public boolean moveBlockRight() {
-        return false;
+        activeBlock.moveRight();
+
+        boolean isPositionValid = collision.isPositionValid(activeBlock);
+
+        if (!isPositionValid) {
+            activeBlock.revertColPosition();
+
+            return false;
+        }
+
+        gridData.eraseActiveGrid();
+        writeToActiveGrid(activeBlock);
+
+        return true;
+    }
+    
+    // =====================
+    // Rotation
+    // =====================
+    public boolean rotateBlockRight() {
+        activeBlock.rotateRight();
+
+        boolean isPositionValid = collision.isPositionValid(activeBlock);
+
+        if (!isPositionValid) {
+            activeBlock.revertBlockRotation();
+
+            return false;
+        }
+
+        gridData.eraseActiveGrid();
+        writeToActiveGrid(activeBlock);
+
+        return true;
     }
 
+    public boolean rotateBlockLeft() {
+        activeBlock.rotateLeft();
+
+        boolean isPositionValid = collision.isPositionValid(activeBlock);
+
+        if (!isPositionValid) {
+            activeBlock.revertBlockRotation();
+
+            return false;
+        }
+
+        gridData.eraseActiveGrid();
+        writeToActiveGrid(activeBlock);
+
+        return true;
+    }
+
+    // =====================
+    // Grid Manipulation
+    // =====================
     private void writeToSolidGrid(BlockData blockData) {
         CellTemplate[][] block = blockData.getRotatedBlockCopy();
 
@@ -69,15 +145,15 @@ public class GridManager {
 
         int blockSize = blockData.blockSize();
 
-        for (int row = blockRow; row < blockSize; row++) {
-            for (int col = blockCol; col < blockSize; col++) {
+        for (int row = 0; row < blockSize; row++) {
+            for (int col = 0; col < blockSize; col++) {
                 CellTemplate cell = block[row][col];
 
                 if (cell.isEmpty()) {
                     continue;
                 }
 
-                gridData.setSolidCell(cell, row, col);
+                gridData.setSolidCell(cell, row + blockRow, col + blockCol);
             }
         }
     }
@@ -90,15 +166,15 @@ public class GridManager {
 
         int blockSize = blockData.blockSize();
 
-        for (int row = blockRow; row < blockSize; row++) {
-            for (int col = blockCol; col < blockSize; col++) {
+        for (int row = 0; row < blockSize; row++) {
+            for (int col = 0; col < blockSize; col++) {
                 CellTemplate cell = block[row][col];
 
                 if (cell.isEmpty()) {
                     continue;
                 }
 
-                gridData.setActiveCell(cell, row, col);
+                gridData.setActiveCell(cell, row + blockRow, col + blockCol);
             }
         }
     }

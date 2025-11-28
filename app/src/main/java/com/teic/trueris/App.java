@@ -8,6 +8,9 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.teic.trueris.game.GameLoop;
+import com.teic.trueris.game.Renderer;
+import com.teic.trueris.game.grid.GridData;
+import com.teic.trueris.game.grid.GridManager;
 import com.teic.trueris.menu.MenuManager;
 import com.teic.trueris.menu.item.ActionItem;
 import com.teic.trueris.menu.item.EditableItem;
@@ -100,10 +103,16 @@ public class App {
         menuList.add(new ActionItem(
             "Start Game", 
             () -> {
+                GridData gridData = new GridData(config);
+
+                Renderer renderer = new Renderer(terminal, textGraphics, gridData, config);
+                GridManager gridManager = new GridManager(config, gridData);
+                
                 GameLoop gl = 
                     new GameLoop(
                         terminal, 
-                        textGraphics, 
+                        renderer, 
+                        gridManager, 
                         config
                     );
                 
