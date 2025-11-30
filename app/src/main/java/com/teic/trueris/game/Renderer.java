@@ -49,8 +49,8 @@ public class Renderer {
                     drawTile(
                         col, 
                         row, 
-                        "" + Symbols.BLOCK_SPARSE, 
-                        Color.GREY
+                        "" + Symbols.BLOCK_DENSE, 
+                        Color.DEFAULT
                     );
                     continue;
                 }
@@ -61,19 +61,38 @@ public class Renderer {
     public void updateScreen() {
         clearBorderContents();
 
+        // for (int row = 0; row < (int) config.getHeight(); row++) {
+        //     for (int col = 0; col < (int) config.getWidth(); col++) {
+        //         CellTemplate cell = gridData.getSolidCell(row, col);
+        //         if (!cell.isEmpty()) {
+        //             drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SOLID, cell.color);
+        //         }
+
+        //         cell = gridData.getGhostCell(row, col);
+        //         if (!cell.isEmpty()) {
+        //             drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SPARSE, Color.DEFAULT);
+        //         }
+
+        //         cell = gridData.getActiveCell(row, col);
+        //         if (!cell.isEmpty()) {
+        //             drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SOLID, cell.color);
+        //         }
+        //     }
+        // }
+
         for (int row = 0; row < (int) config.getHeight(); row++) {
             for (int col = 0; col < (int) config.getWidth(); col++) {
-                CellTemplate cell = gridData.getSolidCell(row, col);
+                CellTemplate cell = gridData.getSolidCell(row + (int) config.getBuffer(), col);
                 if (!cell.isEmpty()) {
                     drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SOLID, cell.color);
                 }
 
-                cell = gridData.getGhostCell(row, col);
+                 cell = gridData.getGhostCell(row + (int) config.getBuffer(), col);
                 if (!cell.isEmpty()) {
-                    drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SPARSE, cell.color);
+                    drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SPARSE, Color.DEFAULT);
                 }
 
-                cell = gridData.getActiveCell(row, col);
+                cell = gridData.getActiveCell(row + (int) config.getBuffer(), col);
                 if (!cell.isEmpty()) {
                     drawTile(col + 1, row + 1, "" + Symbols.BLOCK_SOLID, cell.color);
                 }
@@ -121,3 +140,4 @@ public class Renderer {
         textGraphics.setForegroundColor(getTextColor(Color.DEFAULT));
     }
 }
+

@@ -53,21 +53,5 @@ public class GridData {
     void setGhostCell(CellTemplate cell, int row, int col) {
         ghostGrid[row][col] = cell;
     }
-
-    public void eraseActiveGrid() {
-        for (int row = 0; row < gridRow; row++) {
-            for (int col = 0; col < gridCol; col++) {
-                activeGrid[row][col] = CellTemplate.EMPTY;
-            }
-        }
-    }
-
-    public void eraseGhostGrid() {
-        for (int row = 0; row < gridRow; row++) {
-            for (int col = 0; col < gridCol; col++) {
-                ghostGrid[row][col] = CellTemplate.EMPTY;
-            }
-        }
-    }
 }
 

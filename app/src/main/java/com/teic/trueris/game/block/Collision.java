@@ -1,6 +1,7 @@
-package com.teic.trueris.game.grid;
+package com.teic.trueris.game.block;
 
 import com.teic.trueris.Config;
+import com.teic.trueris.game.grid.GridData;
 import com.teic.trueris.game.templates.CellTemplate;
 
 public class Collision {
@@ -42,7 +43,7 @@ public class Collision {
 
     private boolean isOutOfBounds(int gridRow, int gridCol) {
         return (
-            gridRow < 0 || gridRow >= config.getHeight()
+            gridRow < 0 || gridRow >= config.getHeight() + config.getBuffer()
             || gridCol < 0 || gridCol >= config.getWidth()
         );
     }

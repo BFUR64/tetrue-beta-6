@@ -1,4 +1,4 @@
-package com.teic.trueris.game.grid;
+package com.teic.trueris.game.block;
 
 import java.util.Collections;
 import java.util.LinkedList;

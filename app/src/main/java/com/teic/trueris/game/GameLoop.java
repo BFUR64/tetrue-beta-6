@@ -7,7 +7,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 import com.teic.trueris.Config;
 import com.teic.trueris.LogType;
 import com.teic.trueris.Logging;
-import com.teic.trueris.game.grid.GridManager;
 
 public class GameLoop {
     private static final int NSEC = 1_000_000_000;

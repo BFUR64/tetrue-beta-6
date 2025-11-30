@@ -1,0 +1,80 @@
+------------------------------------------------------------
+2025-11-30 13:30:10 [ INFO ] Session start
+2025-11-30 13:30:10 [ INFO ] App Start
+2025-11-30 13:30:10 [ INFO ] Reading config
+2025-11-30 13:30:10 [ WARN ] FileNotFoundException: config.json (No such file or directory)
+java.io.FileNotFoundException: config.json (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+	at com.fasterxml.jackson.core.TokenStreamFactory._fileInputStream(TokenStreamFactory.java:318)
+	at com.fasterxml.jackson.core.JsonFactory.createParser(JsonFactory.java:1219)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3752)
+	at com.teic.trueris.Config.readConfig(Config.java:65)
+	at com.teic.trueris.App.<init>(App.java:81)
+	at com.teic.trueris.App.main(App.java:44)
+2025-11-30 13:30:10 [ INFO ] Config written
+2025-11-30 13:30:10 [ INFO ] Config loaded
+2025-11-30 13:30:10 [ DEBUG ] Loading sound: MENU_MOVE
+2025-11-30 13:30:12 [ DEBUG ] Loading sound: MENU_SELECT
+2025-11-30 13:30:12 [ DEBUG ] Loading sound: MENU_BACK
+2025-11-30 13:30:12 [ DEBUG ] Loading sound: BG_MUSIC
+2025-11-30 13:30:12 [ INFO ] Sounds loaded
+2025-11-30 13:30:12 [ INFO ] Menu started: <<< TetrueBeta 6 >>>
+2025-11-30 13:30:17 [ WARN ] Error preparing MENU_MOVE
+2025-11-30 13:30:17 [ WARN ] LineUnavailableException: line with format PCM_SIGNED 44100.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian not supported.
+javax.sound.sampled.LineUnavailableException: line with format PCM_SIGNED 44100.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian not supported.
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectDL.implOpen(DirectAudioDevice.java:484)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.implOpen(DirectAudioDevice.java:1238)
+	at java.desktop/com.sun.media.sound.AbstractDataLine.open(AbstractDataLine.java:115)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.open(DirectAudioDevice.java:1038)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.open(DirectAudioDevice.java:1131)
+	at com.teic.trueris.sound.SoundManager.prepareSound(SoundManager.java:182)
+	at com.teic.trueris.sound.SoundManager.playSFX(SoundManager.java:133)
+	at com.teic.trueris.menu.MenuManager.run(MenuManager.java:101)
+	at com.teic.trueris.App.run(App.java:97)
+	at com.teic.trueris.App.main(App.java:46)
+2025-11-30 13:30:18 [ WARN ] Error preparing MENU_MOVE
+2025-11-30 13:30:18 [ WARN ] LineUnavailableException: line with format PCM_SIGNED 44100.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian not supported.
+javax.sound.sampled.LineUnavailableException: line with format PCM_SIGNED 44100.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian not supported.
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectDL.implOpen(DirectAudioDevice.java:484)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.implOpen(DirectAudioDevice.java:1238)
+	at java.desktop/com.sun.media.sound.AbstractDataLine.open(AbstractDataLine.java:115)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.open(DirectAudioDevice.java:1038)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.open(DirectAudioDevice.java:1131)
+	at com.teic.trueris.sound.SoundManager.prepareSound(SoundManager.java:182)
+	at com.teic.trueris.sound.SoundManager.playSFX(SoundManager.java:133)
+	at com.teic.trueris.menu.MenuManager.run(MenuManager.java:87)
+	at com.teic.trueris.App.run(App.java:97)
+	at com.teic.trueris.App.main(App.java:46)
+2025-11-30 13:30:18 [ WARN ] Error preparing MENU_MOVE
+2025-11-30 13:30:18 [ WARN ] LineUnavailableException: line with format PCM_SIGNED 44100.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian not supported.
+javax.sound.sampled.LineUnavailableException: line with format PCM_SIGNED 44100.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian not supported.
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectDL.implOpen(DirectAudioDevice.java:484)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.implOpen(DirectAudioDevice.java:1238)
+	at java.desktop/com.sun.media.sound.AbstractDataLine.open(AbstractDataLine.java:115)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.open(DirectAudioDevice.java:1038)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.open(DirectAudioDevice.java:1131)
+	at com.teic.trueris.sound.SoundManager.prepareSound(SoundManager.java:182)
+	at com.teic.trueris.sound.SoundManager.playSFX(SoundManager.java:133)
+	at com.teic.trueris.menu.MenuManager.run(MenuManager.java:87)
+	at com.teic.trueris.App.run(App.java:97)
+	at com.teic.trueris.App.main(App.java:46)
+2025-11-30 13:30:18 [ WARN ] Error preparing MENU_MOVE
+2025-11-30 13:30:18 [ WARN ] LineUnavailableException: line with format PCM_SIGNED 44100.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian not supported.
+javax.sound.sampled.LineUnavailableException: line with format PCM_SIGNED 44100.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian not supported.
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectDL.implOpen(DirectAudioDevice.java:484)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.implOpen(DirectAudioDevice.java:1238)
+	at java.desktop/com.sun.media.sound.AbstractDataLine.open(AbstractDataLine.java:115)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.open(DirectAudioDevice.java:1038)
+	at java.desktop/com.sun.media.sound.DirectAudioDevice$DirectClip.open(DirectAudioDevice.java:1131)
+	at com.teic.trueris.sound.SoundManager.prepareSound(SoundManager.java:182)
+	at com.teic.trueris.sound.SoundManager.playSFX(SoundManager.java:133)
+	at com.teic.trueris.menu.MenuManager.run(MenuManager.java:87)
+	at com.teic.trueris.App.run(App.java:97)
+	at com.teic.trueris.App.main(App.java:46)
+2025-11-30 13:30:19 [ DEBUG ] Menu selection: Start Game
+2025-11-30 13:30:19 [ INFO ] Game started
+2025-11-30 13:30:50 [ INFO ] Menu exit: <<< TetrueBeta 6 >>>
+2025-11-30 13:30:52 [ INFO ] Session end
+------------------------------------------------------------

@@ -1,5 +1,6 @@
-package com.teic.trueris.game.grid;
+package com.teic.trueris.game.block;
 
+import com.teic.trueris.Config;
 import com.teic.trueris.game.templates.CellTemplate;
 
 public class BlockData {
@@ -14,6 +15,14 @@ public class BlockData {
     
     public BlockData(CellTemplate[][] block) {
         this.block = block;
+        this.blockCol = (int) Config.getBlockOffset();
+    }
+
+    private BlockData(CellTemplate[][] block, int blockRow, int blockCol, Direction blockRotation) {
+        this.block = block;
+        this.blockRow = blockRow;
+        this.blockCol = blockCol;
+        this.blockRotation = blockRotation;
     }
 
     // =====================
@@ -125,7 +134,7 @@ public class BlockData {
     // Block Object Copying
     // =====================
     public BlockData copyBlockData() {
-        return new BlockData(copy(this.block));
+        return new BlockData(copy(this.block), this.blockRow, this.blockCol, this.blockRotation);
     }
 
     private CellTemplate[][] copy(

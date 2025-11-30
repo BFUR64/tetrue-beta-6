@@ -18,7 +18,7 @@ public class Config {
     private static final double DEF_GRAVITY = 1.0;
     private static final double DEF_HEIGHT = 20;
     private static final double DEF_WIDTH = 10;
-    private static final double DEF_BUFFER = 1;
+    private static final double DEF_BUFFER = 2;
 
     private static final double MIN_FPS = 30;
     private static final double MAX_FPS = 120;
@@ -32,8 +32,10 @@ public class Config {
     private static final double MIN_WIDTH = 10;
     private static final double MAX_WIDTH = 30;
 
-    private static final double MIN_BUFFER = 1;
-    private static final double MAX_BUFFER = 1;
+    private static final double MIN_BUFFER = 0;
+    private static final double MAX_BUFFER = 3;
+    
+    private static final double BLOCK_OFFSET = 3;
 
     private double targetFps;
     private double gravity;
@@ -196,6 +198,8 @@ public class Config {
     public double getHeight() { return height; }
     public double getWidth() { return width; }
     public double getBuffer() { return buffer; }
+
+    public static double getBlockOffset() { return BLOCK_OFFSET; }
 
     public boolean setTargetFps(double value) {
         boolean isValid = isTargetFpsValid(value);
